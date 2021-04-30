@@ -58,7 +58,7 @@ BERT的预训练模型参数量很多，训练时候的时间也比较久。ALBE
 ![avatar](https://escalader.github.io/pictures/nlpmodel/albsharepara.png)  
 上图显示了不同共享方式模型的参数量，可以看到共享所有参数之后的模型要远远小于不共享参数的模型。当E=768时，not-shared的参数量其实就是BERT-base的参数量，等于108M，而共享所有参数后，模型的参数量变为31M。  
 通过共享参数可以有效地减少模型的参数量，另外共享参数还可以帮助模型稳定网络中的参数。对比alberta和bert每一层transformer的输入和输出的l2距离，发现Albert的效果更加平滑，如下图所示。  
-![avatar](escalader.github.io/pictures/nlpmodel/layerid.png)  
+![avatar](https://escalader.github.io/pictures/nlpmodel/layerid.png)  
 ## 使用SOP替换NSP  
 RoBERTa结果显示，NSP loss对于模型并没有什么用处，因此ALBERT也对NSP进行了一些思考。  
 Albert认为bert中使用nsp任务过于简单了，因为nsp的反例是随机采样得到的，这些反例的句子通常属于不同的主题，例如前面的句子是来自体育新闻，而后面的句子来自于娱乐新闻。因此bert在进行nsp任务时，通常是不需要真正学习橘子之间的语义以及顺序的，只需要判断它们的主题类型。  
