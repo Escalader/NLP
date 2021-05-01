@@ -28,5 +28,5 @@
 模型蒸馏希望student模型学习到teacher模型的泛化能力，因此在训练模型时采用的target是teacher模型输出的概率分布，这也称为
 soft target。有些模型蒸馏的方法在训练的时候也会使用原来的one-hot label，称为hard target。  
 
-为了更好的学习到teacher模型的泛化能力，Hinton提出了softmax-temperature，公式如下:
-$y = s $
+为了更好的学习到teacher模型的泛化能力，Hinton提出了softmax-temperature，公式如下:  
+$$ p_i = \frac{exp(Z_i/T)}{\sum_{j}exp(Z_j/T)}$$
