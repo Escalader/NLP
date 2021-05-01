@@ -29,4 +29,27 @@
 soft target。有些模型蒸馏的方法在训练的时候也会使用原来的one-hot label，称为hard target。  
 
 为了更好的学习到teacher模型的泛化能力，Hinton提出了softmax-temperature，公式如下:  
-$$ p_i = \frac{exp(Z_i/T)}{\sum_{j}exp(Z_j/T)}$$
+$$ p_i = \frac{exp(Z_i/T)}{\sum_{j}exp(Z_j/T)}$$  
+softmax-temperature在softmax基础上添加了一个参数T，T越接近0，则分布越接近ont-hot，T越接近无穷大，则分布越接近平均分布。即T越大，分布会越平滑，选择合适的T可以让student模型更能观察到teacher模型的类别分布多样性。在训练的过程中，teacher模型和student模型使用同样的参数T，而后续使用student模型推断时，T设置回1，变成标准的softmax。
+# DistilBERT
+DistilBERT是huggingFace发布的，论文是《distilbert，啊distilled version of bert：small，faster，cheaper and lighter》，DistilBERT模型与BERT模型类似，但是DistilBERT只有6层，而BERT-base有12层，DistilBERT只有6600万参数，而 BERT-base有1.1亿参数。DistilBERT在减少BERT参数和层数的情况下，仍然可以保持比较好的性能，在GLUE上保留了BERT 95%的性能。
+## DistilBERT训练
+DistilBERT使用KL散度作为损失函数，q表示student模型的分布，而p表示teacher模型输出的分布，损失函数如下：  
+$$ KL(p||q) = E_p(\log(\frac{p}{q})) = \sum_{i}p_i\times\log(p_i)-\sum_{i}p_i\times\log(q_i)$$
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
