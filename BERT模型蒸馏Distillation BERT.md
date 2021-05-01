@@ -29,4 +29,4 @@
 soft target。有些模型蒸馏的方法在训练的时候也会使用原来的one-hot label，称为hard target。  
 
 为了更好的学习到teacher模型的泛化能力，Hinton提出了softmax-temperature，公式如下:
-\frac{a}{b}
+$y = s $
