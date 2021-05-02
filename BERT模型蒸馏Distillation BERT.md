@@ -59,9 +59,17 @@ DistilBERT最终的损失函数有KL散度(蒸馏损失)和MLM(遮蔽语言建�
 ![avatar](https://escalader.github.io/pictures/nlpmodel/distibilstm2.png)  
 
 上面是第二种BiLSTM模型，用于两个两个句子进行匹配，两个BiLSTM输出的隐藏向量分别为h1和h2，则需要将两个向量拼接在一起，在进行分类。h1和h2拼接公式如下：
-$$f(h_1,h_2) = [h_1,h_2,h_1\odot h_2,|h_1-h_2|]$$
+$$f(h_1,h_2) = [h_1,h_2,h_1\odot h_2,|h_1-h_2|]$$  
 
+⊙表示点乘
+## Distiled BiLSTM训练  
+将bert蒸馏到BiLSTM模型，使用的损失函数包括两个部分：  
 
+- 一部分是hard target，直接使用one-hot类别与BiLSTM输出的概率值计算交叉熵。
+- 一部分是soft target，使用teacher模型(BERT)输出的概率值与BiLSTM输出的概率值计算均方误差MSE。  
+
+$$ y = softmax(Z)$$  
+$$L_distil = {||Z^{(B)}-Z^{(S)}||}_2^2$$
 
 
 
