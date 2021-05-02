@@ -68,7 +68,8 @@ $$f(h_1,h_2) = [h_1,h_2,h_1\odot h_2,|h_1-h_2|]$$
 - 一部分是hard target，直接使用one-hot类别与BiLSTM输出的概率值计算交叉熵。
 - 一部分是soft target，使用teacher模型(BERT)输出的概率值与BiLSTM输出的概率值计算均方误差MSE。  
 
-$ y = softmax(Z)$ 
+$ y = softmax(Z)$  
+
 $L_{distil} = {||Z^{(B)}-Z^{(S)}||}_2^2$
 
 
