@@ -78,7 +78,21 @@ $$ Z^{(B)}是student模型的输出 $$
 
 - Masking，使用[Mask]标签随机替换一个单词，例如"i have a cat"，替换成"i [mask] a cat"
 - POS-guided word replacement，将一个单词替换成另一个具有相同POS的单词，例如将"i have a cat"替换成" i have a dog"
-- n-gram,
+- n-gram，在1-5中随机采样得到n，然后采用n-gram，去掉其他词。
+## Distilled BiLSTM实验结果  
+![avatar](https://escalader.github.io/pictures/nlpmodel/disbilprere.png)  
+
+上面是DIstiled BilSTM模型的结果，可以看到比单纯使用BiLSTM模型的效果好很多，在SST和QQP数据集上的效果甚至比ELMO好，说明模型能够学习到一部分BERT的泛化能力。但是Distilled BiLSTM的效果还是比BERT差了很多，说明还是有很多知识不能迁移到BiLSTM中。  
+
+![avatar](https://escalader.github.io/pictures/nlpmodel/distibilstmpa2.png)  
+
+上面是Distilled BiLSTM的参数和推断时间，BiLSTM的参数要远远少于BERT-large，比BERT-large少了335倍，推断时间比BERT-large快乐434倍。压缩效果还是比较明显的。
+
+# 不同蒸馏模型总结  
+DistilBERT模型的效果相对较好，而Distiled BiLSTM压缩的更小。  
+
+DistilBERT模型使用了KL散度计算soft target，而Distilled BiLSTM使用MSE计算。HuggingFace在博客中给出的原因是，DistilBERT训练的是语言模型，而Distilled BiLSTM针对下游分类任务，语言模型的输出空间维度要大很多，这种时候使用
+MSE可能不同logit之间会相互抵消。
 
 
 
