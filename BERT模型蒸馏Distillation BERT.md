@@ -73,7 +73,7 @@ $$ l_{distil} = {||Z^{(B)}-Z^{(S)}||}_2^2 $$
 
 $$ L = \alpha\cdot L_{CE}+(1-\alpha)\cdot L_{distil}$$
 
-Z^{(B)}^是teacher模型的输出；Z^{(B)}^是student模型的输出  
+$Z^{(B)}$是teacher模型的输出；$Z^{(B)}$是student模型的输出  
 在训练过程中，太小的数据集不足以rangstudent模型学习到teacher模型的所有知识，所以作者提出了三种数据增强的方法扩充数据：  
 
 - Masking，使用[Mask]标签随机替换一个单词，例如"i have a cat"，替换成"i [mask] a cat"
