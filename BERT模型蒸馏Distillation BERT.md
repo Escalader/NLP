@@ -59,7 +59,7 @@ DistilBERT最终的损失函数有KL散度(蒸馏损失)和MLM(遮蔽语言建�
 ![avatar](https://escalader.github.io/pictures/nlpmodel/distibilstm2.png)  
 
 上面是第二种BiLSTM模型，用于两个两个句子进行匹配，两个BiLSTM输出的隐藏向量分别为h1和h2，则需要将两个向量拼接在一起，在进行分类。h1和h2拼接公式如下：
-$$f(h_1,h_2) = [h_1,h_2,h_1\bigodot h_2,|h_1-h_2|]$$
+$$f(h_1,h_2) = [h_1,h_2,h_1\odot h_2,|h_1-h_2|]$$
 
 
 
