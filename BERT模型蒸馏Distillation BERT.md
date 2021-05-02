@@ -1,7 +1,9 @@
 # 简介  
 模型蒸馏主要用于模型压缩。
 ## transformer历史模型参数(单位百万)  
-![avatar](https://escalader.github.io/pictures/nlpmodel/hispara.png)  
+
+![avatar](https://escalader.github.io/pictures/nlpmodel/hispara.png) 
+
 模型的体积也限制其在现实世界中的使用，有一下因素：  
 > - 这种模型的训练花费大量的金钱，需要使用昂贵的 GPU 服务器才能提供大规模的服务。
 > - 模型太大导致 inference 的时间也变长，不能用于一些实时性要求高的任务中。
@@ -45,13 +47,15 @@ DistilBERT最终的损失函数有KL散度(蒸馏损失)和MLM(遮蔽语言建�
 ![avatar](https://escalader.github.io/pictures/nlpmodel/distires.png)  
 
 上图是DistilBERT在GLUE基准开发集上的实验结果，可以看到在所有的数据集上，DIstBERT的效果逗比ELMO好，在一些数据上
-效果甚至比BERT还好，整体性能也达到了BERT的97%，但是DistilBERT的参数量只有BERT的60%。如下图：  
+效果甚至比BERT还好，整体性能也达到了BERT的97%，但是DistilBERT的参数量只有BERT的60%。如下图： 
+
 ![avatar](https://escalader.github.io/pictures/nlpmodel/distipa.png)  
 
 上图是不同模型参数的以及推算时间的对比，可以看到DistiBERT的参数比ELMo和BERT-base都少很多，而且推算时间也大大缩短。  
 # 将BERT蒸馏到BiLSTM
 出自文章《distilling task-specific knowledge FORM bert into simple neural networks》，将BERT模型蒸馏到bilstm中，称为Distiled BiLSTM。即taecher模型时bert，而student模型时BiLSTM。文章提出来两种模型，其中一个是针对单个句子的分类；另一个是针对两个句子做匹配。  
 ## Distilled BiLSTM模型  
+
 ![avatar](https://escalader.github.io/pictures/nlpmodel/distibilstm.png)  
 
 上图是第一种BiLSTM模型，用于单个句子分类，讲句子中所有单词的词向量输入一个BiLSTM，然后将前向和后向LSTM的隐藏向量拼接在一起，传图全链接网络中进行分类。  
@@ -79,7 +83,8 @@ $Z^{(B)}$是teacher模型的输出；$Z^{(B)}$是student模型的输出
 - Masking，使用[Mask]标签随机替换一个单词，例如"i have a cat"，替换成"i [mask] a cat"
 - POS-guided word replacement，将一个单词替换成另一个具有相同POS的单词，例如将"i have a cat"替换成" i have a dog"
 - n-gram，在1-5中随机采样得到n，然后采用n-gram，去掉其他词。
-## Distilled BiLSTM实验结果  
+## Distilled BiLSTM实验结果
+
 ![avatar](https://escalader.github.io/pictures/nlpmodel/disbilprere.png)  
 
 上面是DIstiled BilSTM模型的结果，可以看到比单纯使用BiLSTM模型的效果好很多，在SST和QQP数据集上的效果甚至比ELMO好，说明模型能够学习到一部分BERT的泛化能力。但是Distilled BiLSTM的效果还是比BERT差了很多，说明还是有很多知识不能迁移到BiLSTM中。  
