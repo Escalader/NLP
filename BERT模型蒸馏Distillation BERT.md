@@ -68,9 +68,17 @@ $$f(h_1,h_2) = [h_1,h_2,h_1\odot h_2,|h_1-h_2|]$$
 - 一部分是hard target，直接使用one-hot类别与BiLSTM输出的概率值计算交叉熵。
 - 一部分是soft target，使用teacher模型(BERT)输出的概率值与BiLSTM输出的概率值计算均方误差MSE。  
 
-$$ y = softmax(Z)$$  
-$$L_{distil} = {||Z^{(B)}-Z^{(S)}||}_2^2$$
+$$ y = softmax(Z) $$  
+$$ L_{distil} = {||Z^{(B)}-Z^{(S)}||}_2^2 $$
+$$ L = \alpha\cdotL_{CE}+(1-\alpha)\cdotL_{distil} $$
+$$ Z^{(B)}是teacher模型的输出 $$
+$$ Z^{(B)}是student模型的输出 $$  
 
+在训练过程中，太小的数据集不足以rangstudent模型学习到teacher模型的所有知识，所以作者提出了三种数据增强的方法扩充数据：  
+
+- Masking，使用[Mask]标签随机替换一个单词，例如"i have a cat"，替换成"i [mask] a cat"
+- POS-guided word replacement，将一个单词替换成另一个具有相同POS的单词，例如将"i have a cat"替换成" i have a dog"
+- n-gram,
 
 
 
