@@ -35,9 +35,31 @@ softmax-temperature在softmax基础上添加了一个参数T，T越接近0，则
 DistilBERT是huggingFace发布的，论文是《distilbert，啊distilled version of bert：small，faster，cheaper and lighter》，DistilBERT模型与BERT模型类似，但是DistilBERT只有6层，而BERT-base有12层，DistilBERT只有6600万参数，而 BERT-base有1.1亿参数。DistilBERT在减少BERT参数和层数的情况下，仍然可以保持比较好的性能，在GLUE上保留了BERT 95%的性能。
 ## DistilBERT训练
 DistilBERT使用KL散度作为损失函数，q表示student模型的分布，而p表示teacher模型输出的分布，损失函数如下：  
-$$ KL(p||q) = E_p(\log(\frac{p}{q})) = \sum_{i}p_i\times\log(p_i)-\sum_{i}p_i\times\log(q_i)$$
+$$ KL(p||q) = E_p(\log(\frac{p}{q})) = \sum_{i}p_i\times\log(p_i)-\sum_{i}p_i\times\log(q_i)$$  
 
+DistilBERT最终的损失函数有KL散度(蒸馏损失)和MLM(遮蔽语言建模)损失两部分线性组合得到。DistillBERT一出来BERT模型的token类型embedding和NSP(下一句预测任务)，保留了BERT的其他机制，然后把BERT的层数减少为原来的1/2。  
 
+此外DistilBERT还是用了一些优化的trick，例如，使用teacher模型的参数对DistilBERT模型进行初始化；采用RoBEERTa中的一些训练方法，例如：大的batch，动态mask等。  
+## DistillBERT实验结果  
+
+![avatar](https://escalader.github.io/pictures/nlpmodel/distires.png)  
+
+上图是DistilBERT在GLUE基准开发集上的实验结果，可以看到在所有的数据集上，DIstBERT的效果逗比ELMO好，在一些数据上
+效果甚至比BERT还好，整体性能也达到了BERT的97%，但是DistilBERT的参数量只有BERT的60%。如下图：  
+![avatar](https://escalader.github.io/pictures/nlpmodel/distipa.png)  
+
+上图是不同模型参数的以及推算时间的对比，可以看到DistiBERT的参数比ELMo和BERT-base都少很多，而且推算时间也大大缩短。  
+# 将BERT蒸馏到BiLSTM
+出自文章《distilling task-specific knowledge FORM bert into simple neural networks》，将BERT模型蒸馏到bilstm中，称为Distiled BiLSTM。即taecher模型时bert，而student模型时BiLSTM。文章提出来两种模型，其中一个是针对单个句子的分类；另一个是针对两个句子做匹配。  
+## Distilled BiLSTM模型  
+![avatar](https://escalader.github.io/pictures/nlpmodel/distibilstm.png)  
+
+上图是第一种BiLSTM模型，用于单个句子分类，讲句子中所有单词的词向量输入一个BiLSTM，然后将前向和后向LSTM的隐藏向量拼接在一起，传图全链接网络中进行分类。  
+
+![avatar](https://escalader.github.io/pictures/nlpmodel/distibilstm2.png)  
+
+上面是第二种BiLSTM模型，用于两个两个句子进行匹配，两个BiLSTM输出的隐藏向量分别为h1和h2，则需要将两个向量拼接在一起，在进行分类。h1和h2拼接公式如下：
+$$f(h_1,h_2) = [h_1,h_2,h_1\bigodoth_2,|h_1-h_2|]$$
 
 
 
